@@ -1,20 +1,23 @@
-name: Resources
-on: repository_dispatch
+name: IncrementBuild
+on:
+  push:
+    branches:
+      - dev
 jobs:
-    resources:
-        name: Update resources
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v1
+  incrementbuild:
+    name: Update resources
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
 
-            - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
 
-            - name: Update Versioning
-              run: node increment-buildno.js
+      - name: Update Versioning
+        run: node increment-buildno.js
 
-            - name: Update resources
-              uses: test-room-7/action-update-file@v1
-              with:
-                  file-path: src/metadata.json
-                  commit-msg: Update resources
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update resources
+        uses: test-room-7/action-update-file@v1
+        with:
+          file-path: src/metadata.json
+          commit-msg: Update resources
+          github-token: ${{ secrets.GITHUB_TOKEN }}
